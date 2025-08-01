@@ -6,7 +6,7 @@ interface StatsCardProps {
   value: string | number;
   subtitle?: string;
   icon: LucideIcon;
-  color?: "primary" | "success" | "warning" | "danger";
+  color?: "primary" | "success" | "warning" | "danger" | "info";
 }
 
 export const StatsCard = ({ 
@@ -21,6 +21,7 @@ export const StatsCard = ({
     success: "text-green-600 bg-green-50 dark:bg-green-950/20",
     warning: "text-orange-600 bg-orange-50 dark:bg-orange-950/20",
     danger: "text-red-600 bg-red-50 dark:bg-red-950/20",
+    info: "text-purple-600 bg-purple-50 dark:bg-purple-950/20"
   };
 
   return (

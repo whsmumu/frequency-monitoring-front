@@ -58,6 +58,7 @@ export default {
 					success: 'hsl(var(--church-success))',
 					warning: 'hsl(var(--church-warning))',
 					danger: 'hsl(var(--church-danger))',
+					info: 'hsl(var(--church-info))',
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Users, TrendingUp, Calendar, UserPlus, Baby, Heart, BarChart3, History } from "lucide-react";
+import { Plus, Users, TrendingUp, Calendar, UserPlus, Baby, Heart, BarChart3, History, Activity } from "lucide-react";
 import { AttendanceForm } from "@/components/AttendanceForm";
 import { StatsCard } from "@/components/StatsCard";
 import { AttendanceChart } from "@/components/AttendanceChart";
@@ -12,6 +12,7 @@ import { ExportDialog } from "@/components/ExportDialog";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import churchIcon from "@/assets/church-icon.png";
+import { GrowthStatsCard } from "@/components/GrowthStatsCard";
 
 interface AttendanceData {
   date: Date;
@@ -126,12 +127,21 @@ const Index = () => {
     ? Math.round(totalAttendance / filteredData.length) 
     : 0;
 
-  const totalVisitors = filteredData.reduce((sum, record) => 
-    sum + record.homensVisitantes + record.mulheresVisitantes, 0
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth();
+  const currentYear = currentDate.getFullYear();
+
+  const totalVisitorsThisMonth = attendanceData.filter(record => {
+      const recordDate = record.date;
+      return recordDate.getMonth() === currentMonth && recordDate.getFullYear() === currentYear;
+  }).reduce((sum, record) =>
+      sum + record.homensVisitantes + record.mulheresVisitantes, 0
   );
 
-  const lastAttendance = filteredData.length > 0 
-    ? filteredData[filteredData.length - 1] 
+  const sortedFilteredData = [...filteredData].sort((a, b) => a.date.getTime() - b.date.getTime());
+
+  const lastAttendance = sortedFilteredData.length > 0 
+    ? sortedFilteredData[sortedFilteredData.length - 1] 
     : null;
 
   const lastTotal = lastAttendance 
@@ -225,24 +235,18 @@ const Index = () => {
           <TabsContent value="dashboard" className="space-y-4">
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <StatsCard
-                title="Total de Cultos"
-                value={filteredData.length}
-                subtitle="cultos registrados"
-                icon={Calendar}
-                color="primary"
-              />
+              <GrowthStatsCard data={sortedFilteredData} />
               <StatsCard
                 title="Média por Culto"
                 value={averageAttendance}
                 subtitle="pessoas em média"
-                icon={TrendingUp}
-                color="success"
+                icon={Activity}
+                color="info"
               />
               <StatsCard
-                title="Total de Visitantes"
-                value={totalVisitors}
-                subtitle="visitantes recebidos"
+                title="Visitantes no Mês"
+                value={totalVisitorsThisMonth}
+                subtitle="visitantes recebidos no mês"
                 icon={UserPlus}
                 color="warning"
               />

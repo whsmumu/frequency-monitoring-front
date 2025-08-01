@@ -42,6 +42,7 @@ All colors MUST be HSL.
     --church-success: 142 76% 36%;
     --church-warning: 45 93% 47%;
     --church-danger: 0 84% 60%;
+    --church-info: 262 80% 58%;
     
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(220 91% 50%), hsl(220 91% 45%));
